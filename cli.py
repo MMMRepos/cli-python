@@ -31,6 +31,20 @@ def main():
         print("Selected option", menuSelection)
         if menuSelection == "1":
             cliCommandFactory.displayCommands()
+            commandSelection = input("Enter your choice of command ").strip()
+            print(commandSelection)
+            commandList = commandSelection.split("+")
+            print(commandList)
+            for command in commandList:
+                command = command.strip(" ")
+                print(command)
+                commandValue = cliCommandFactory.getCommandValue(command)
+                if commandValue is not None:
+                    print("Command entered ", commandValue)
+                    commandResponse = commLayer.executeCommand(commandValue)
+                    print("Command response ", commandResponse)            
+                else:
+                    print("Invalid command")
         elif menuSelection == "2":
             print("Running tests")
         elif menuSelection == "3":
