@@ -1,18 +1,19 @@
 from collections import deque
 
+
 class KeyLogger:
     def __init__(self):
-        self.keyStack = deque(maxlen = 500)
+        self.keyQueue = deque(maxlen = 500)
     
-    def printKeyStack(self):
-        print(self.keyStack)
+    def printKeyQueue(self):
+        print(self.keyQueue)
         
     def appendLastKey(self, key):
-        self.keyStack.append(key)
+        self.keyQueue.append(key)
     
     def popLastKey(self):
-        if self.keyStack:
-            return self.pop()
+        if self.keyQueue:
+            return self.popleft()
         else:
             return None
         
