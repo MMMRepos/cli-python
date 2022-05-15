@@ -41,7 +41,7 @@ class CommunicationAdapter:
     def receiveData(self):
         return self.serialObject.readline().decode('ascii')
     
-    def executeCommand(self, command):
+    def exchangeData(self, command):
         self.sendData(command)
         return self.receiveData()
         
