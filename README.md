@@ -72,5 +72,20 @@ The CLI application can be invoked from a terminal or command prompt as follows:
 ![CLIDemo.gif](images/CLIDemo.gif)
 
 ## Testing
-
-## Improvements
+### Unit Testing
+- The PyUnit framework provided by Python is used for unit testing this application.
+- For production applications, we could use other unit testing frameworks like PyTest or Robot.
+- Ideally the unit tests should cover over 80% of the code.However, for demonstration purposes, this application contains unit tests for:
+  - CRC16 calculation in DeviceFirmwareUpdate class
+  - KeyLogger class
+		
+## Potential Improvements
+### Design Improvements
++ Extending the functionality to other communication protocols
+  + The CommunicationAdapter currently communicates with the embedded device using UART protocol
+  + There might be a need in the future to communicate with the hardware using a difference communication rpotocol like SPI, I2C, CAN, etc.
+  + If such a requirement arises in the future, the dependency inversion principle can be used here. A Comunication Interface can be created, which in turn will be implemented by the specific protocol classes. The CLI will depend on this Communication Interface. The protocol specific information will be abstracted by the Communication Interface.
++ Using different verification schemes for checking data integrity
+  + Data integrity is an important consideration when exchanging data between devices. The level of data integirty check required, will depend on the user application.
+  + Support can be added for other integrity checking schemes like CRC32, simple checksum, SHA256. etc. as required.
+  + In this case, the DeviceFirmwareUpdate class does not need to know the details of the selected verification scheme. This information can be abstracted by using the strategy pattern. The DeviceFirmwareUpdate class will refer to the strategy interface for execution of the selected verification scheme.
