@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 LINE_FEED = "\n"
+CARRIAGE_RETURN = "\r"
 
 class CommandFactory:
     def __init__(self):
@@ -14,7 +15,7 @@ class CommandFactory:
         if value == "":
             return None
         else:
-            return value + LINE_FEED
+            return value + LINE_FEED + CARRIAGE_RETURN
         
     def displayCommands(self):
         print("\n*** List of Commands ***\n")
