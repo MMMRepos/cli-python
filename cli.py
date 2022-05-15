@@ -7,8 +7,6 @@ import sys
 from enum import Enum
 from testChat import TestChat
 
-
-
 menuDict = defaultdict(str)
 
 def main():
@@ -18,10 +16,8 @@ def main():
     testChat = TestChat(commLayer)
     bootload = DeviceFirmwareUpdate(commLayer)
     
-
-    displayMainMenu()
-    
     while True:
+        displayMainMenu()
         menuSelection = input("Enter your selection number ")
         print("Selected option", menuSelection)
         keyHistory.appendLastKey(menuDict[str(menuSelection)])
@@ -35,7 +31,16 @@ def main():
         elif menuSelection == CLIMenu.CLOSE.number:
             close(keyHistory)
 
-def close(keyHistory):
+def close(keyHistory: KeyLogger):
+    """Close the CLI application
+        
+    Parameters:
+    keyHistory: The instance of the keyLogger class
+
+    Returns:
+    None
+    """
+        
     print("Key Logger History")
     keyHistory.printKeyQueue()
     userInput = input("Press ENTER to close the CLI")
@@ -44,9 +49,16 @@ def close(keyHistory):
     if userInput == "":
         sys.exit()
 
-
-
 def displayMainMenu():
+    """Display the menu options for the CLI
+        
+    Parameters:
+    None
+
+    Returns:
+    None
+    """
+        
     print("CLI Task")
     print("\n*** Main Menu ***\n")
     menuDict[CLIMenu.SEND_COMMAND.number] = CLIMenu.SEND_COMMAND.text
@@ -74,9 +86,6 @@ class CLIMenu(Enum):
     def __init__(self, number, text):
         self.number = number       
         self.text = text   
-    
-        
-        
     
 if __name__ == "__main__":
     main()
