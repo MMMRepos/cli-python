@@ -64,7 +64,9 @@ class DeviceFirmwareUpdate:
             if commandResponse != "":
                 print("Command response ", commandResponse)  
                   
-    def calculateCRC16(self, data):
+    def calculateCRC16(self, data: list):
+        if (isinstance(data, list) != True):
+            raise Exception("Incorrect input type")
         crcSeed = 0xFFFF
         for byte in data:
             crcSeed = (crcSeed << 8) ^ lookUpTable[(crcSeed >> 8) ^ byte]
