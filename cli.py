@@ -24,7 +24,7 @@ def main():
         keyHistory.appendLastKey(menuDict[str(menuSelection)])
         
         if menuSelection == CLIMenu.SEND_COMMAND.number:
-            cliCommands.sendCommand(commLayer)  
+            cliCommands.sendCommands(commLayer)  
         elif menuSelection == CLIMenu.RUN_TEST.number:
             runTests()
         elif menuSelection == CLIMenu.UPDATE_DEVICE.number:
