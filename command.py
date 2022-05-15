@@ -34,43 +34,15 @@ class Command:
             print("    " + key + ": " + value)
         print("\n")
         # print(dict(self.commands))
-        
-    def splitInputCommands(self, commandInput):
-        retList = []
-        commandList = commandInput.split("+")
-        # print(commandList)
-        for command in commandList:
-            command = command.strip(" ")
-            # print(command)
-            commandValue = self.getCommandValue(command)
-            if commandValue is not None:
-                print("Command entered ", command)
-                print("Message sent ", commandValue)
-                retList.append(command)
-                # commandResponse = commLayer.executeCommand(commandValue)
-                # print("Command response ", commandResponse)            
-            else:
-                print(command  + " is invalid")
-        return retList
-    
-    def sendCommands(self, commLayer: CommunicationAdapter):
+
+    def sendCommand(self, commLayer: CommunicationAdapter):
         self.displayCommands()
         commandInput = input("Enter your choice of command ")
-        commandList = self.splitInputCommands(commandInput)
-                # print(commandInput)
-                # commandList = commandInput.split("+")
-        print(commandList)
-        for singleCommand in commandList:
-                    # command = command.strip(" ")
-                    # print(command)
-            self.sendCommand(commLayer, singleCommand) 
-
-    def sendCommand(self, commLayer: CommunicationAdapter, singleCommand):
-        commandValue = self.getCommandValue(singleCommand)
+        commandValue = self.getCommandValue(commandInput)
         if commandValue is None:
             print("Invalid Command")
         else:
-            print("Command entered ", singleCommand)
+            print("Command entered ", commandInput)
             print("Message sent ", commandValue)
             commandResponse = commLayer.executeCommand(commandValue)
             print("Command response ", commandResponse)   
