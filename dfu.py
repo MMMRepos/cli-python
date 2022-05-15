@@ -29,13 +29,3 @@ class DeviceFirmwareUpdate:
             crcSeed = (crcSeed << 8) ^ self.lookUpTable[(crcSeed >> 8) ^ byte]
             crcSeed &= 0xFFFF   
         return crcSeed
-    
-def crcTest():
-    dfuObject = DeviceFirmwareUpdate()
-    data = [0x8C, 0x2A, 0xAE, 0xEC, 0x08, 0xF0, 0x00, 0xD0, 0x11, 0xC0, 0xF5, 0xFF, 0x10, 0xC0, 0xF8, 0xFF]
-    result = dfuObject.crc16Calculate(data)
-    print(hex(result))
-
-crcTest()
-        
-    
