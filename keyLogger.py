@@ -21,9 +21,9 @@ class KeyLogger:
     def appendLastKey(self, key):
         self.keyQueue.append(key)
     
-    def popLastKey(self):
+    def popKey(self):
         if self.keyQueue:
-            return self.popleft()
+            return self.keyQueue.popleft()
         else:
             return None
         
