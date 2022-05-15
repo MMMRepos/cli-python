@@ -69,7 +69,7 @@ def main():
                 packet = []
                 for j in range(i, i+16):
                     packet.append(firmwareImage[j])
-                crcResult = bootload.crc16Calculate(packet)
+                crcResult = bootload.calculateCRC16(packet)
                 print("CRC result ", hex(crcResult))
                 packet.append(crcResult & 0x00FF)
                 packet.append(crcResult >> 8)
@@ -77,7 +77,7 @@ def main():
                 print("Command response ", commandResponse)
         elif menuSelection == "4":
             print("Key Logger History")
-            keyHistory.printKeyStack()
+            keyHistory.printKeyQueue()
             userInput = input("Press ENTER to close the CLI")
             print(userInput)
             print("Thank you for using the CLI")
