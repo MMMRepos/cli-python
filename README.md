@@ -68,6 +68,8 @@ The CLI application can be invoked from a terminal or command prompt as follows:
 	  - This class is responsible for displaying the list of available COM ports, opening the COM port selected by the user (if it is available) using the specified baud rate and timeput settings and exchanging data over the open COM port
 	  - The CommandOperation, TestChat, DeviceFirmwareUpdate classes all depend on the CommunicationAdapter class for sending commands or data to the embedded device
 	
+## Demo
+![CLIDemo.gif](images/CLIDemo.gif)
 
 ## Testing
 
