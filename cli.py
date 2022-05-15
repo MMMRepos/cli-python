@@ -1,10 +1,11 @@
 from collections import defaultdict
 from comms import CommunicationAdapter
-from command import Command
+from commandOperation import CommandOperation
 from keyLogger import KeyLogger
 from dfu import DeviceFirmwareUpdate
 import sys
 from enum import Enum
+from testChat import TestChat
 
 
 
@@ -12,9 +13,11 @@ menuDict = defaultdict(str)
 
 def main():
     keyHistory = KeyLogger()
-    cliCommands = Command()
     commLayer = initializeCommLayer()
+    commandOperation = CommandOperation(commLayer)
+    testChat = TestChat(commLayer)
     bootload = DeviceFirmwareUpdate(commLayer)
+    
 
     displayMainMenu()
     
@@ -24,9 +27,9 @@ def main():
         keyHistory.appendLastKey(menuDict[str(menuSelection)])
         
         if menuSelection == CLIMenu.SEND_COMMAND.number:
-            cliCommands.sendCommand(commLayer)  
+            commandOperation.sendCommand(commLayer)  
         elif menuSelection == CLIMenu.RUN_TEST.number:
-            runTests()
+            runTests(testChat)
         elif menuSelection == CLIMenu.UPDATE_DEVICE.number:
             bootload.updateDevice()
         elif menuSelection == CLIMenu.CLOSE.number:
@@ -41,12 +44,12 @@ def close(keyHistory):
     if userInput == "":
         sys.exit()
 
-def runTests():
+def runTests(testChat: TestChat):
     print("Running tests")
     print("Test 1: Quick Chat")
-    buffer1 = ["Hello", "Good Bye"]
+    testChat.runTest()
     print("Test 2: Extended Call")
-    print("Test 1: On Hold")
+    print("Test 3: On Hold")
 
 def displayMainMenu():
     print("CLI Task")
