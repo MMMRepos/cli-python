@@ -28,7 +28,7 @@ class CommunicationAdapter:
             print("{} not available".format(portNumber))
             return None
     
-    def openComPort(self, portNumber = 9600, baudrate = 9600, timeout = 1):
+    def openComPort(self, portNumber = "COM3", baudrate = 9600, timeout = 1):
         self.serialObject = serial.Serial(self.selectComPort(portNumber), baudrate = baudrate, timeout = timeout)
         # Add an exception when COM port fails to open
         
@@ -41,3 +41,6 @@ class CommunicationAdapter:
     def executeCommand(self, command):
         self.sendData(command)
         return self.receiveData()
+        
+        
+    
