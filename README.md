@@ -86,6 +86,6 @@ The CLI application can be invoked from a terminal or command prompt as follows:
   + There might be a need in the future to communicate with the hardware using a different communication protocol like SPI, I2C, CAN, etc.
   + If such a requirement arises in the future, the dependency inversion principle can be used here. A Communication Interface can be created, which in turn will be implemented by the specific protocol classes. The CLI Application will depend on this Communication Interface. The protocol specific information will be abstracted by the Communication Interface.
 + Using different verification schemes for checking data integrity
-  + Data integrity is an important consideration when exchanging data between devices. The level of data integirty check required, will depend on the user application.
+  + Data integrity is an important consideration when exchanging data between devices. The level of data integirty required, will depend on the user application.
   + Support can be added for other integrity checking schemes like CRC32, simple checksum, SHA256. etc. as required.
   + In this case, the DeviceFirmwareUpdate class does not need to know the details of the selected verification scheme. This information can be abstracted by using the strategy pattern. The DeviceFirmwareUpdate class will refer to the strategy interface for execution of the selected verification scheme.
