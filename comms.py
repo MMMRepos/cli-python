@@ -33,7 +33,10 @@ class CommunicationAdapter:
         # Add an exception when COM port fails to open
         
     def sendData(self, data):
-        self.serialObject.write(data.encode())
+        if isinstance(data, str):
+            self.serialObject.write(data.encode())
+        else:
+            self.serialObject.write(data)
         
     def receiveData(self):
         return self.serialObject.readline().decode('ascii')
