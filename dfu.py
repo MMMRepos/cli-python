@@ -1,6 +1,9 @@
 from comms import CommunicationAdapter
 
-
+# CRC16 lookup table for calculation of CRC using CCITT-FALSE algorithm
+# CRC POLYNOMIAL = 0x1021
+# CRC SEED = 0xFFFF
+# CRC XOR = 0x0000
 lookUpTable = [ 
         0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50A5, 0x60C6, 0x70E7, 0x8108, 0x9129, 0xA14A, 0xB16B, 0xC18C, 0xD1AD, 0xE1CE, 0xF1EF,
         0x1231, 0x0210, 0x3273, 0x2252, 0x52B5, 0x4294, 0x72F7, 0x62D6, 0x9339, 0x8318, 0xB37B, 0xA35A, 0xD3BD, 0xC39C, 0xF3FF, 0xE3DE,
@@ -26,17 +29,24 @@ firmwareImage = [0xFA, 0xCF, 0x04, 0xF0, 0xFB, 0xCF, 0x05, 0xF0, 0xE9, 0xCF, 0x0
                  0xF8, 0xCF, 0x10, 0xF0, 0xF5, 0xCF, 0x11, 0xF0, 0xD7, 0x68, 0xD6, 0x68, 0xF2, 0x94, 0x9E, 0x96]
 
 class DeviceFirmwareUpdate:
+    """This class is used for sending a new application image to the connected device for bootloading.
+    
+    This class uses the comms module for sending the firmware image to the connected device.
+    """
+    
     def __init__(self, commLayer: CommunicationAdapter):
         self.commLayer = commLayer 
         
-    def calculateCRC16(self, data):
-        crcSeed = 0xFFFF
-        for byte in data:
-            crcSeed = (crcSeed << 8) ^ lookUpTable[(crcSeed >> 8) ^ byte]
-            crcSeed &= 0xFFFF   # important, crc must stay 16bits all the way through
-        return crcSeed
-    
     def updateDevice(self):
+        """Push the device firmware as data packets created using the firmware image and CRC16
+        
+        Parameters:
+        None
+
+        Returns:
+        None
+        """
+        
         print("Update device")
         for i in range(0, len(firmwareImage), 16):
             packet = []
@@ -46,7 +56,17 @@ class DeviceFirmwareUpdate:
             print("CRC result ", hex(crcResult))
             packet.append(crcResult & 0x00FF)
             packet.append(crcResult >> 8)
+            print("Data packet: ", end = " ")
+            for j in range(0, 18):
+                print(hex(packet[j]), end = " ")
+            print("")
             commandResponse = self.commLayer.exchangeData(packet)
-            print("Command response ", commandResponse)
-        
-    
+            if commandResponse != "":
+                print("Command response ", commandResponse)  
+                  
+    def calculateCRC16(self, data):
+        crcSeed = 0xFFFF
+        for byte in data:
+            crcSeed = (crcSeed << 8) ^ lookUpTable[(crcSeed >> 8) ^ byte]
+            crcSeed &= 0xFFFF   
+        return crcSeed
