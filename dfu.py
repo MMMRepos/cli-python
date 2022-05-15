@@ -28,16 +28,12 @@ firmwareImage = [0xFA, 0xCF, 0x04, 0xF0, 0xFB, 0xCF, 0x05, 0xF0, 0xE9, 0xCF, 0x0
 class DeviceFirmwareUpdate:
     def __init__(self, commLayer: CommunicationAdapter):
         self.commLayer = commLayer 
-    
-    # CRC calculation using CRC-16 CCITT-FALSE algorithm and look-up table approach
-    # Polynomial = 0x1021
-    # CRC Seed = 0xFFFF
-    # CRC XOR = 0x0000
+        
     def calculateCRC16(self, data):
         crcSeed = 0xFFFF
         for byte in data:
             crcSeed = (crcSeed << 8) ^ lookUpTable[(crcSeed >> 8) ^ byte]
-            crcSeed &= 0xFFFF  
+            crcSeed &= 0xFFFF   # important, crc must stay 16bits all the way through
         return crcSeed
     
     def updateDevice(self):
@@ -50,7 +46,7 @@ class DeviceFirmwareUpdate:
             print("CRC result ", hex(crcResult))
             packet.append(crcResult & 0x00FF)
             packet.append(crcResult >> 8)
-            commandResponse = self.commLayer.executeCommand(packet)
+            commandResponse = self.commLayer.exchangeData(packet)
             print("Command response ", commandResponse)
         
     
