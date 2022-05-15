@@ -23,3 +23,21 @@ class CommandFactory:
             print("    " + key + ": " + value)
         print("\n")
         # print(dict(self.commands))
+        
+    def processInputCommands(self, commandInput):
+        retList = []
+        commandList = commandInput.split("+")
+        # print(commandList)
+        for command in commandList:
+            command = command.strip(" ")
+            # print(command)
+            commandValue = self.getCommandValue(command)
+            if commandValue is not None:
+                print("Command entered ", command)
+                print("Message sent ", commandValue)
+                retList.append(command)
+                # commandResponse = commLayer.executeCommand(commandValue)
+                # print("Command response ", commandResponse)            
+            else:
+                print(command  + " is invalid")
+        return retList
