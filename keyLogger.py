@@ -6,7 +6,7 @@ class KeyLogger:
         self.keyQueue = deque(maxlen = 500)
     
     def printKeyQueue(self):
-        print(self.keyQueue)
+        print(list(self.keyQueue))
         
     def appendLastKey(self, key):
         self.keyQueue.append(key)
