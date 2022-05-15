@@ -27,9 +27,9 @@ def main():
         keyHistory.appendLastKey(menuDict[str(menuSelection)])
         
         if menuSelection == CLIMenu.SEND_COMMAND.number:
-            commandOperation.sendCommand(commLayer)  
+            commandOperation.sendCommand()  
         elif menuSelection == CLIMenu.RUN_TEST.number:
-            runTests(testChat)
+            testChat.runTests()
         elif menuSelection == CLIMenu.UPDATE_DEVICE.number:
             bootload.updateDevice()
         elif menuSelection == CLIMenu.CLOSE.number:
@@ -44,12 +44,7 @@ def close(keyHistory):
     if userInput == "":
         sys.exit()
 
-def runTests(testChat: TestChat):
-    print("Running tests")
-    print("Test 1: Quick Chat")
-    testChat.runTest()
-    print("Test 2: Extended Call")
-    print("Test 3: On Hold")
+
 
 def displayMainMenu():
     print("CLI Task")
