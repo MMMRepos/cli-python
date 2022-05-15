@@ -76,12 +76,15 @@ def main():
                 commandResponse = commLayer.executeCommand(packet)
                 print("Command response ", commandResponse)
         elif menuSelection == "4":
-            print("Close")
-            
+            print("Key Logger History")
+            keyHistory.printKeyStack()
+            userInput = input("Press ENTER to close the CLI")
+            print(userInput)
+            print("Thank you for using the CLI")
+            if userInput == "":
+                sys.exit()
         
         
-        keyHistory.appendLastKey(menuDict[str(menuSelection)])
-        keyHistory.printKeyStack()
     
 if __name__ == "__main__":
     main()
