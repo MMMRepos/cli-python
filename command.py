@@ -26,7 +26,7 @@ class Command:
         if value == "":
             return None
         else:
-            return value + LINE_FEED
+            return value + LINE_FEED + CARRIAGE_RETURN
         
     def displayCommands(self):
         print("\n*** List of Commands ***\n")
@@ -53,24 +53,27 @@ class Command:
                 print(command  + " is invalid")
         return retList
     
-    def sendCommand(self, commLayer: CommunicationAdapter):
+    def sendCommands(self, commLayer: CommunicationAdapter):
         self.displayCommands()
         commandInput = input("Enter your choice of command ")
         commandList = self.splitInputCommands(commandInput)
                 # print(commandInput)
                 # commandList = commandInput.split("+")
         print(commandList)
-        for command in commandList:
+        for singleCommand in commandList:
                     # command = command.strip(" ")
                     # print(command)
-            commandValue = self.getCommandValue(command)
-                    # if commandValue is not None:
-            print("Command entered ", command)
+            self.sendCommand(commLayer, singleCommand) 
+
+    def sendCommand(self, commLayer: CommunicationAdapter, singleCommand):
+        commandValue = self.getCommandValue(singleCommand)
+        if commandValue is None:
+            print("Invalid Command")
+        else:
+            print("Command entered ", singleCommand)
             print("Message sent ", commandValue)
             commandResponse = commLayer.executeCommand(commandValue)
-            print("Command response ", commandResponse)          
-            # else:
-            #     print("Invalid command")
+            print("Command response ", commandResponse)   
 
     def registerCommands(self):
         self.registerCommand(HELLO, HELLO_MESSAGE)
