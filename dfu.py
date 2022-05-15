@@ -23,9 +23,9 @@ class DeviceFirmwareUpdate:
     # Polynomial = 0x1021
     # CRC Seed = 0xFFFF
     # CRC XOR = 0x0000
-    def crc16Calculate(self, data):
+    def calculateCRC16(self, data):
         crcSeed = 0xFFFF
         for byte in data:
             crcSeed = (crcSeed << 8) ^ self.lookUpTable[(crcSeed >> 8) ^ byte]
-            crcSeed &= 0xFFFF   
+            crcSeed &= 0xFFFF
         return crcSeed
