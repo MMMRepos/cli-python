@@ -16,11 +16,37 @@ class Command(Enum):
         self.message = message  
 
 class CommandOperation:
+    """This class is used for handling CLI command operations.
+    
+    This class uses the comms module for sending the CLI commands to the connected device.
+    """
+    
     def __init__(self, commLayer: CommunicationAdapter):
         self.commands = defaultdict(str)
         self.registerCommands()
         self.commLayer = commLayer
+    
+    def sendCommand(self):
+        """Send the command selected from a list of commands to the communication layer
         
+        Parameters:
+        None
+
+        Returns:
+        None
+        """
+        
+        self.displayCommands()
+        commandKey = input("Enter your choice of command ")
+        commandValue = self.getCommandValue(commandKey)
+        if commandValue is None:
+            print("Invalid Command")
+        else:
+            print("Command entered ", commandKey)
+            print("Message sent ", commandValue)
+            commandResponse = self.commLayer.exchangeData(commandValue)
+            print("Command response ", commandResponse)   
+
     def registerCommand(self, commandKey, commandValue):
         self.commands[commandKey] = commandValue
     
@@ -37,18 +63,6 @@ class CommandOperation:
             print("    " + key + ": " + value)
         print("\n")
         # print(dict(self.commands))
-
-    def sendCommand(self):
-        self.displayCommands()
-        commandKey = input("Enter your choice of command ")
-        commandValue = self.getCommandValue(commandKey)
-        if commandValue is None:
-            print("Invalid Command")
-        else:
-            print("Command entered ", commandKey)
-            print("Message sent ", commandValue)
-            commandResponse = self.commLayer.exchangeData(commandValue)
-            print("Command response ", commandResponse)   
 
     def registerCommands(self):
         self.registerCommand(Command.HELLO.commandKey, Command.HELLO.message)
