@@ -18,68 +18,61 @@ class CLITest(Enum):
             self.testSequence.append(test)
         
 class TestChat:
+    """This class is used for handling CLI tests.
+    
+    This class uses the comms module for sending the test commands to the connected device.
+    """
+    
     def __init__(self, commLayer: CommunicationAdapter):
         self.commLayer = commLayer
     
-    def runTest(self):
+    def runTests(self):
+        """Run all the tests for CLI commands
+        
+        Parameters:
+        None
+
+        Returns:
+        None
+        """
+        
+        print("\n*** Running tests ***")
+        print("\n\tTest 1: Quick Chat")
+        self.runSingleTest(CLITest.QUICK_CHAT)
+        print("")
+        print("\n\tTest 2: Extended Call")
+        self.runSingleTest(CLITest.EXTENDED_CALL)
+        print("")
+        print("\n\tTest 3: On Hold")
+        self.runSingleTest(CLITest.ON_HOLD)
+        print("")
+        
+    def runSingleTest(self, testType: CLITest):
         transmitBuffer = []
-        print("    ", end = "")
-        # print(len(CLITest.QUICK_CHAT.testSequence))
-        for i in range(len(CLITest.QUICK_CHAT.testSequence)):
-            print(CLITest.QUICK_CHAT.testSequence[i].commandKey.strip("\n"), end = " ")
-        # for command in CLITest.QUICK_CHAT.testSequence:
-            if CLITest.QUICK_CHAT.testSequence[i] != Command.TERMINATOR:
-                transmitBuffer.append(CLITest.QUICK_CHAT.testSequence[i])
+        for i in range(len(testType.testSequence)):
+            if testType.testSequence[i] != Command.TERMINATOR:
+                self.appendCommand(transmitBuffer, testType.testSequence[i])
             else:
-                print("\n    Response", end = " " )
-                print(self.transmitCommands(transmitBuffer))
+                self.exchangeCommands(transmitBuffer)
                 transmitBuffer = []
+
+    def appendCommand(self, transmitBuffer, txCommand):
+        if transmitBuffer == []:
+            print("\n\tRequest:", end = "\t" )
+        self.printItem(txCommand.commandKey)
+        transmitBuffer.append(txCommand)
+                
+    def exchangeCommands(self, transmitBuffer):
+        print("\n\tResponse:", end = " " )
+        receiveBuffer = self.transmitCommands(transmitBuffer)
+        for response in receiveBuffer:
+            self.printItem(response)
     
-    def runOnHoldTest(self):
-        transmitBuffer = []
-        print("    ", end = "")
-        for i in range(len(CLITest.ON_HOLD.testSequence)):
-            print(CLITest.ON_HOLD.testSequence[i].commandKey.strip("\n"), end = " ")
-            if CLITest.ON_HOLD.testSequence[i] != Command.TERMINATOR:
-                transmitBuffer.append(CLITest.ON_HOLD.testSequence[i])
-            else:
-                print("\n    Response ", end = " " )
-                print(self.transmitCommands(transmitBuffer))
-                print("    ", end = "")
-                transmitBuffer = []
-    
-    def runExtendedCallTest(self):
-        transmitBuffer = []
-        print("    ", end = "")
-        for i in range(len(CLITest.EXTENDED_CALL.testSequence)):
-            print(CLITest.EXTENDED_CALL.testSequence[i].commandKey.strip("\n"), end = " ")
-            if CLITest.EXTENDED_CALL.testSequence[i] != Command.TERMINATOR:
-                transmitBuffer.append(CLITest.EXTENDED_CALL.testSequence[i])
-            else:
-                print("\n    Response ", end = " " )
-                print(self.transmitCommands(transmitBuffer))
-                print("    ", end = "")
-                transmitBuffer = []
+    def printItem(self, item):
+        print("\t" + item.strip("\n"), end = "\t")
     
     def transmitCommands(self, transmitBuffer):
         receiveBuffer = []
         for command in transmitBuffer:
             receiveBuffer.append(self.commLayer.exchangeData(command.message + LINE_FEED + CARRIAGE_RETURN))
         return receiveBuffer
-    
-    def runTests(self):
-        print("\n*** Running tests ***\n")
-        print("    Test 1: Quick Chat")
-        self.runTest()
-        print("")
-        print("    Test 2: Extended Call")
-        self.runExtendedCallTest()
-        print("")
-        print("    Test 3: On Hold")
-        self.runOnHoldTest()
-        print("")
-            
-        
-    
-    
-    
