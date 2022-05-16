@@ -33,15 +33,15 @@ The CLI application can be invoked from a terminal or command prompt as follows:
 + Components
   + The CLI application is responsible for taking an input from the user and processing it by using the underlying classes
   + The CLI application allows the user to select a number from the 4 available choices:
-    1. 1: Send Command
-	2. 2: Run Test
-	3. 3: Update Device
-	4. 4: Close
+    + 1: Send Command
+	+ 2: Run Test
+	+ 3: Update Device
+	+ 4: Close
   + Depending on the user's input, the choice is routed to the corresponding class for handling that input.
 	+ The **CommandOperation** class handles registering commands, displaying the list of available commands and sending messages for 3 commands to the hardware:
-	  - **Command**: ***Hello***		**Message**: ***Hello, it is nice to meet you.***
-	  - **Command**: ***Good Bye***		**Message**: ***I need to run; but it has been great talking.***
-	  - **Command**: ***Hold Please*** 	**Message**: ***Excuse me a moment, someone else is here.***
+	  - **Command**: ***Hello***,		**Message**: ***Hello, it is nice to meet you.***
+	  - **Command**: ***Good Bye***,		**Message**: ***I need to run; but it has been great talking.***
+	  - **Command**: ***Hold Please***, 	**Message**: ***Excuse me a moment, someone else is here.***
 	  - Based on the command selected by the user, the corresponding message is sent to the embedded device
 	+ The **TestChat** class runs 3 tests when instructed by the user. 
 	  - Quick Chat
